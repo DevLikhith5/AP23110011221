@@ -245,3 +245,36 @@ worker:
 ## note
 
 makes system async + more reliabe
+
+# Stage 6 — Priority Notifications
+
+## goal
+
+show top 10 important notif  
+
+---
+
+## idea
+
+priority based on:
+- placement → high  
+- result → mid  
+- event → low  
+
+also latest notif should come first  
+
+---
+
+## approach
+
+1. fetch notif from API  
+2. assign score based on type  
+3. sort by (score + time)  
+4. take top 10  
+
+---
+
+## note
+
+not using DB here, directly using API data  
+kept it simple  
