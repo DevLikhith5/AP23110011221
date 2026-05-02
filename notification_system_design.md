@@ -204,3 +204,44 @@ Redis + websockets → less DB load
 ## note
 
 main idea is avoid DB hit again n again
+
+
+# Stage 5 — Reliability
+
+## probelm
+
+send_email → save_db → push_notif  
+
+issues:
+- if email fail whole flow break  
+- no retry  
+- all are sync (slow)  
+
+---
+
+## soln
+
+use queue (Kafka / RabbitMQ)
+
+---
+
+## flow
+
+API → queue → worker  
+
+---
+
+## logic
+
+enqueue(notif)
+
+worker:
+ save_db()  
+ send_email (retry)  
+ push_notif()  
+
+---
+
+## note
+
+makes system async + more reliabe
