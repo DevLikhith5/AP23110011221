@@ -1,6 +1,6 @@
 let BASE = "http://20.207.122.201/evaluation-service";
 
-function hdrs() {
+function h() {
   return { Authorization: "Bearer " + (process.env.JWT_TOKEN || "") };
 }
 
@@ -13,7 +13,7 @@ export interface Notification {
 
 export async function getNotifications(): Promise<Notification[]> {
   try {
-    let res = await fetch(BASE + "/notifications", { headers: hdrs() });
+    let res = await fetch(BASE + "/notifications", { headers: h() });
     if (!res.ok) return [];
     let d = await res.json();
     return d.notifications || [];
