@@ -83,3 +83,45 @@ This makes system more realtime and reduces unnecessary API calls.
 I tried to keep APIs simple and REST based so it is easy to understand and also scalable later.
 
 Not going too complex here, just keeping things clean and practical.
+# Stage 2 — Database Design
+
+## Database choice
+
+i am using PostgreSQL becuase data is structured and easy to manage. also it supports indexing which helps in perfomance.
+
+---
+
+## Table strcture
+
+basic table for notifcations:
+
+CREATE TABLE notifications(
+ id UUID PRIMARY KEY,
+ userId INT,
+ type VARCHAR,
+ message TEXT,
+ isRead BOOLEAN,
+ createdAt TIMESTAMP
+);
+
+---
+
+## Problems at scale
+
+- if data becomes very large (like millions of rows)  
+- queries can become slow sometimes  
+- many users accesing at same time  
+
+---
+
+## Solutions
+
+- create index on (userId , isRead )  → faster query  
+- use pagination (dont fetch all at once)  
+- archive old data if not req  
+
+---
+
+## small note
+
+keeping schema simple so easy to scale later, not making it too complex
