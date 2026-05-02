@@ -125,3 +125,55 @@ CREATE TABLE notifications(
 ## small note
 
 keeping schema simple so easy to scale later, not making it too complex
+
+
+# Stage 3 — Query Optimization
+
+## Given query
+
+SELECT * FROM notifications
+WHERE studentID = 1042 AND isRead = false
+ORDER BY createdAt DESC;
+
+---
+
+## why it is slow
+
+- no index so full table scan happens  
+- also sorting takes time when data is large  
+- as rows increase perfomance drops  
+
+---
+
+## solution
+
+create index on needed cols:
+
+CREATE INDEX idx_user_read_time
+ON notifications(studentID , isRead , createdAt DESC);
+
+this will make query much faster
+
+---
+
+## why not index all cols
+
+- insert/update will become slow  
+- extra memory usage  
+- not really needed  
+
+---
+
+## another query
+
+SELECT studentID
+FROM notifications
+WHERE notificationType = 'Placement'
+AND createdAt >= NOW() - INTERVAL '7 days';
+
+---
+
+## small note
+
+main idea is reduce full scan and use index properly so query runs faster
+
