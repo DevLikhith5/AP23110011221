@@ -177,3 +177,30 @@ AND createdAt >= NOW() - INTERVAL '7 days';
 
 main idea is reduce full scan and use index properly so query runs faster
 
+# Stage 4 — Performance
+
+## problem
+
+every time user open page → DB hit  
+this is not good if users increse  
+
+---
+
+## solns
+
+- Redis cache → fast access  
+- pagination (dont load all)  
+- lazy loading (only when scroll)  
+- websockets insted of polling  
+
+---
+
+## best
+
+Redis + websockets → less DB load  
+
+---
+
+## note
+
+main idea is avoid DB hit again n again
