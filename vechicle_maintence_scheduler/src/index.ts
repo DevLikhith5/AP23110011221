@@ -1,28 +1,14 @@
-import { getDepots, getVehicles } from "./clients/api.client";
-import { knapsack } from "./services/scheduler.service";
-import { Log } from "logging-middleware";
+import express from "express";
+import { mw } from "logging-middleware";
+import routes from "./routes/schedule.route";
 
-async function main() {
-  Log("backend", "info", "service", "fetching depots");
+import dotenv from "dotenv";
+dotenv.config();
 
-  const depots = await getDepots();
+let app = express();
+app.use(express.json());
+app.use(mw);
+app.use(routes);
 
-  Log("backend", "info", "service", `fetched ${depots.length} depots, fetching tasks`);
-
-  const tasks = await getVehicles();
-
-  Log("backend", "info", "service", `got ${tasks.length} tasks, running scheduler`);
-
-  for (const d of depots) {
-    const r = knapsack(tasks, d.MechanicHours);
-
-    Log("backend", "info", "service", `depot ${d.ID}: impact=${r.maxImpact}, tasks=${r.selected.length}`);
-  }
-
-  Log("backend", "info", "service", "done");
-}
-
-main().catch((err: any) => {
-  Log("backend", "error", "service", err?.message || "unknown error");
-  process.exit(1);
-});
+let port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`server is running on port ${port}`));

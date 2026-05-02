@@ -1,4 +1,8 @@
-const BASE = "http://20.207.122.201/evaluation-service";
+let BASE = "http://20.207.122.201/evaluation-service";
+
+function hdrs() {
+  return { Authorization: "Bearer " + (process.env.JWT_TOKEN || "") };
+}
 
 export interface Depot {
   ID: number;
@@ -12,13 +16,23 @@ export interface Task {
 }
 
 export async function getDepots(): Promise<Depot[]> {
-  const res = await fetch(`${BASE}/depots`);
-  if (!res.ok) throw new Error(`failed to fetch depots: ${res.status}`);
-  return res.json();
+  try {
+    let res = await fetch(BASE + "/depots", { headers: hdrs() });
+    if (!res.ok) return [];
+    let d = await res.json();
+    return d.depots || [];
+  } catch {
+    return [];
+  }
 }
 
 export async function getVehicles(): Promise<Task[]> {
-  const res = await fetch(`${BASE}/vehicles`);
-  if (!res.ok) throw new Error(`failed to fetch vehicles: ${res.status}`);
-  return res.json();
+  try {
+    let res = await fetch(BASE + "/vehicles", { headers: hdrs() });
+    if (!res.ok) return [];
+    let d = await res.json();
+    return d.vehicles || [];
+  } catch {
+    return [];
+  }
 }

@@ -4,13 +4,19 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "logging-middleware": "file:../logging_middleware"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^20.11.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.0"
   }
 }

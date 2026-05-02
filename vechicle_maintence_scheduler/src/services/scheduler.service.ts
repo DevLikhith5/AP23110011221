@@ -1,5 +1,17 @@
 import { Task } from "../clients/api.client";
 
+// intuition:
+// this is a 0/1 knapsack problem.
+// each task is an item, duration is weight, impact is value, mechanic hours is capacity.
+// we want to maximize total impact without exceeding mechanic hours.
+
+// approach: dynamic programming
+// dp[i] = max impact achievable with exactly i hours
+// transition: for each task, try including it if it fits
+//   dp[c] = max(dp[c], dp[c - duration] + impact)
+
+// to track which tasks are selected, we use a keep matrix.
+
 export interface Result {
   maxImpact: number;
   selected: string[];
